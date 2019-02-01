@@ -284,8 +284,7 @@ public static boolean isContinuous(int [] numbers) {
 
 
 
-
-<h3>41:孩子们的游戏(圆圈中最后剩下的数)
+<h3>42:孩子们的游戏(圆圈中最后剩下的数)
   其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。
 	每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,
 	从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,可以不用表演,
@@ -314,3 +313,125 @@ public class Solution {
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>43.求1+2+3+...+n: 要求不能使用乘除法、for、while、if、else、switch、case
+	等关键字及条件判断语句（A?B:C）。</h3>
+  
+```
+
+解题思路：
+1.需利用逻辑与的短路特性实现递归终止。 2.当n==0时，(n>0)&&((sum+=Sum_Solution(n-1))>0)只执行前面的判断，为false，然后直接返回0；
+3.当n>0时，执行sum+=Sum_Solution(n-1)，实现递归计算Sum_Solution(n)。
+    public int Sum_Solution(int n) {
+        int sum = n;
+        boolean ans = (n>0)&&((sum+=Sum_Solution(n-1))>0);
+        return sum;
+    }
+```
+
+
+
+
+
+<h3>44.不用加减乘除做加法: 写一个函数，求两个整数之和，
+	要求在函数体内不得使用+、-、*、/四则运算符号。
+</h3>
+
+```
+1.两个数异或：相当于每一位相加，而不考虑进位；
+2.两个数相与，并左移一位：相当于求得进位；
+3.将上述两步的结果相加
+
+public int Add(int num1,int num2) {
+    while( num2!=0 ){
+        int sum = num1 ^ num2;
+        int carray = (num1 & num2) << 1; //用于进位，当为0时表示没有进位了
+        num1 = sum;
+        num2 = carray;
+    }
+    return num1;
+}
+```
+
+
+
+
+<h3>46.将字符串转换成整数
+	将一个字符串转换成一个整数(实现Integer.valueOf(string)的功能，
+	但是string不符合数字要求时返回0)，要求不能使用字符串转换整数的库函数。
+	数值为0或者字符串不是一个合法的数值则返回0。
+</h3>
+
+```
+public static int StrToInt(String str) {
+	        int res=0;
+	        int flag=1;
+	        
+		 if(str.length()==0) return 0;
+		 char[] c = str.toCharArray();
+		 if(c[0]=='-') {
+			 flag=-1;
+			 c[0]='0';
+		 }
+		 if(c[0]=='+') {
+			 flag=1;
+			 c[0]='0';
+		 }
+		 for(int i = 0;i<c.length;i++) 
+		 {
+			 if(c[i]<'0'||c[i]>'9') {
+				 return 0;
+			 }
+			 res=res*10+c[i]-'0';
+		 }
+		 return res*flag;
+
+
+
+}
+```
+
+
+
+
+
+
+
+
+
+
+<h3>47.数组中重复的数字
+在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，
+	但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。
+	例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+
+</h3>
+```
+//boolean只占一位，所以还是比较省的
+
+public boolean duplicate(int numbers[], int length, int[] duplication) {
+        boolean[] k = new boolean[length];
+        for (int i = 0; i < k.length; i++) {
+            if (k[numbers[i]] == true) {
+                duplication[0] = numbers[i];
+                return true;
+            }
+            k[numbers[i]] = true;
+        }
+        return false;
+    }
+```
