@@ -190,3 +190,84 @@ public class Solution {
     }
 }
 ```
+
+
+<h3>40:翻转单词顺序列
+  例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，
+  正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</h3>
+  
+```
+方法一：
+
+ public String ReverseSentence(String str) {
+        if(str.trim().equals("")){
+            return str;
+        }
+        String[] a = str.split(" ");
+        StringBuffer o = new StringBuffer();
+        int i;
+        for (i = a.length; i >0;i--){
+            o.append(a[i-1]);
+            if(i > 1){
+                o.append(" ");
+            }
+        }
+        return o.toString();
+    }
+    
+方法二：
+
+public String ReverseSentence(String str) {
+    if (str.trim().equals("") && str.length() > 0) {
+        return str; 
+    }
+    Stack reverse = new Stack();
+    String string = str.trim();
+    String[] strings = string.split(" ");
+    for (int i = 0; i length; i++) {
+        reverse.push(strings[i]);
+    }
+    string = reverse.pop();
+    while (!reverse.isEmpty()) {
+        string = string + " " + reverse.pop();
+    }
+    return string;
+}
+```
+
+
+<h3>41:扑克牌顺子
+  “红心A,黑桃3,小王,大王,方片5”,“Oh My God!”不是顺子.....LL不高兴了,他想了想,决定大\小 
+  王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。上面的5张牌就可以
+  变成“1,2,3,4,5”(大小王分别看作2和4),“So Lucky!”。LL决定去买体育彩票啦。 
+  现在,要求你使用这幅牌模拟上面的过程,然后告诉我们LL的运气如何， 如果牌能组成顺子就输出true，
+  否则就输出false。为了方便起见,你可以认为大小王是0。？</h3>
+
+
+```
+public static boolean isContinuous(int [] numbers) {
+
+		 int count =0;
+		 int max=0;
+		
+		Arrays.sort(numbers);
+          if(numbers.length == 0){
+           return false;
+        }
+		for(int i = 0;i<numbers.length-1;i++) {
+            
+			if(numbers[i]==0) {
+				count++;
+				continue;
+			}
+			 if (numbers[i] == numbers[i + 1]) {
+                return false;
+            }
+			max+=numbers[i+1]-numbers[i]-1;
+		}
+		return max>count?false:true;
+		
+		
+	    }
+
+```
