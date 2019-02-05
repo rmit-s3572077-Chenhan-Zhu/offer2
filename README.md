@@ -733,3 +733,43 @@ public class Solution {
     }
 }
 ```
+
+
+<h3>53.按之字形顺序打印二叉树:请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，
+	第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+</h3>
+
+```
+
+public class Solution {
+    public ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        Stack<TreeNode> stack1 = new Stack<TreeNode>();//存奇数行节点
+        Stack<TreeNode> stack2 = new Stack<TreeNode>();//存偶数行节点
+        if(pRoot==null) return result;
+        stack1.push(pRoot);
+        boolean flag=true;
+        TreeNode node;
+        while(!stack1.isEmpty()||!stack2.isEmpty()){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            if(!stack1.isEmpty()){
+                while(!stack1.isEmpty()){
+                    node = stack1.pop();
+                    list.add(node.val);
+                    if(node.left!=null) stack2.push(node.left);
+                    if(node.right!=null) stack2.push(node.right);
+                }
+            }else{
+                while(!stack2.isEmpty()){
+                    node = stack2.pop();
+                    list.add(node.val);
+                    if(node.right!=null) stack1.push(node.right);
+                    if(node.left!=null) stack1.push(node.left);
+                }
+            }
+            result.add(list);
+        }
+        return result;
+    }
+}
+```
