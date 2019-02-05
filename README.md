@@ -580,3 +580,132 @@ public boolean matchCore(char[] str, int strIndex, char[] pattern, int patternIn
     }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>50.删除链表中重复的结点:在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点
+，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+</h3>
+
+```
+public ListNode deleteDuplication(ListNode pHead)
+    {	
+        if(pHead ==null||pHead.next==null) 
+        {return pHead;}
+        else{
+	//新建一个节点，防止头结点要被删除
+		ListNode n= new ListNode(0);
+		n.next=pHead;
+		ListNode cur =pHead;
+		ListNode pre =n;
+		ListNode next=null;
+		while(cur !=null&&cur.next!=null) {
+			next=cur.next;
+			if(cur.val==next.val) {//如果当前节点的值和下一个节点的值相等
+				while(next!=null&&cur.val==next.val) {//向后重复查找
+					next=next.next;
+				}
+				pre.next=next;//指针赋值，就相当于删除
+				cur=next;//cur依次和之前一样向前移动
+			}	
+			else {//如果当前节点和下一个节点值不等，则向后移动一位
+				pre=cur;
+				cur=cur.next;
+			}
+		}
+		return n.next;
+        }
+    }
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>51.删除链表中重复的结点:在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点
+，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+</h3>
+
+```
+public ListNode deleteDuplication(ListNode pHead)
+    {	
+        if(pHead ==null||pHead.next==null) 
+        {return pHead;}
+        else{
+	//新建一个节点，防止头结点要被删除
+		ListNode n= new ListNode(0);
+		n.next=pHead;
+		ListNode cur =pHead;
+		ListNode pre =n;
+		ListNode next=null;
+		while(cur !=null&&cur.next!=null) {
+			next=cur.next;
+			if(cur.val==next.val) {//如果当前节点的值和下一个节点的值相等
+				while(next!=null&&cur.val==next.val) {//向后重复查找
+					next=next.next;
+				}
+				pre.next=next;//指针赋值，就相当于删除
+				cur=next;//cur依次和之前一样向前移动
+			}	
+			else {//如果当前节点和下一个节点值不等，则向后移动一位
+				pre=cur;
+				cur=cur.next;
+			}
+		}
+		return n.next;
+        }
+    }
+```
