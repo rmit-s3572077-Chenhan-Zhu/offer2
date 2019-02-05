@@ -675,37 +675,31 @@ public ListNode deleteDuplication(ListNode pHead)
 
 
 
-<h3>51.删除链表中重复的结点:在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点
-，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+<h3>51.二叉树的下一个结点:给定一个二叉树和其中的一个结点，请找出中序遍历顺序的
+	下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
 </h3>
 
 ```
-public ListNode deleteDuplication(ListNode pHead)
-    {	
-        if(pHead ==null||pHead.next==null) 
-        {return pHead;}
-        else{
-	//新建一个节点，防止头结点要被删除
-		ListNode n= new ListNode(0);
-		n.next=pHead;
-		ListNode cur =pHead;
-		ListNode pre =n;
-		ListNode next=null;
-		while(cur !=null&&cur.next!=null) {
-			next=cur.next;
-			if(cur.val==next.val) {//如果当前节点的值和下一个节点的值相等
-				while(next!=null&&cur.val==next.val) {//向后重复查找
-					next=next.next;
-				}
-				pre.next=next;//指针赋值，就相当于删除
-				cur=next;//cur依次和之前一样向前移动
-			}	
-			else {//如果当前节点和下一个节点值不等，则向后移动一位
-				pre=cur;
-				cur=cur.next;
-			}
-		}
-		return n.next;
+
+我们可发现分成两大类：1、有右子树的，那么下个结点就是右子树最左边的点；（eg：D，B，E，A，C，G） 
+2、没有右子树的，也可以分成两类，a)是父节点左孩子（eg：N，I，L） ，那么父节点就是下一个节点 ； 
+b)是父节点的右孩子（eg：H，J，K，M）找他的父节点的父节点的父节点...直到当前结点是其父节点的左孩子位置。
+如果没有eg：M，那么他就是尾节点。
+
+public class Solution {
+    TreeLinkNode GetNext(TreeLinkNode node)
+    {
+        if(node==null) return null;
+        if(node.right!=null){    //如果有右子树，则找右子树的最左节点
+            node = node.right;
+            while(node.left!=null) node = node.left;
+            return node;
         }
+        while(node.next!=null){ //没右子树，则找第一个当前节点是父节点左孩子的节点
+            if(node.next.left==node) return node.next;
+            node = node.next;
+        }
+        return null;   //退到了根节点仍没找到，则返回null
     }
+}
 ```
