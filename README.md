@@ -870,3 +870,37 @@ public class Solution {
   }
 }
 ```
+
+
+
+<h3>55.二叉搜索树的第k个结点：
+给定一棵二叉搜索树，请找出其中的第k小的结点。
+	例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
+
+</h3>
+```
+public class Solution {
+    TreeNode KthNode(TreeNode pRoot, int k)
+    {
+        //首先中序遍历这颗二叉树
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode p = pRoot;
+        int i = 0;
+        while(p != null || !stack.isEmpty()){
+            if(p != null){
+                stack.push(p);
+                p = p.left;
+            }else{
+                TreeNode node = stack.pop();
+                i++;
+                if(i == k){
+                    return node;
+                }
+                p = node.right;
+            }
+        }
+        return null;
+    }
+}
+
+```
