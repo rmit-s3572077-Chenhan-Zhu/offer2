@@ -902,8 +902,41 @@ public class Solution {
         return null;
     }
 }
-
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -912,8 +945,8 @@ public class Solution {
 	如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
 	我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
 </h3>
-```
 
+```
 private int count = 0;
 private PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 private PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(15, new Comparator<Integer>() {
@@ -949,7 +982,38 @@ public Double GetMedian() {
         return new Double(minHeap.peek());
     }
 }
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1041,5 +1105,4 @@ public class Solution {
         return result;
     }
 }
-
 ```
