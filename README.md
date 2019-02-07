@@ -1066,6 +1066,28 @@ public class Solution {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 方法二：借助一个辅助队列，从头遍历数组，根据如下规则进行入队列或出队列操作： 
 0. 如果队列为空，则当前数字入队列 
 1. 如果当前数字大于队列尾，则删除队列尾，直到当前数字小于等于队列尾，或者队列空，然后当前数字入队列 
@@ -1106,3 +1128,142 @@ public class Solution {
     }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>57.矩阵中的路径:
+
+请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。
+路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。
+如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。 例如 a b c e s f c s a d e e 
+这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，
+因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+</h3>
+```
+
+
+回溯
+基本思想：
+0.根据给定数组，初始化一个标志位数组，初始化为false，表示未走过，true表示已经走过，不能走第二次
+1.根据行数和列数，遍历数组，先找到一个与str字符串的第一个元素相匹配的矩阵元素，进入judge
+2.根据i和j先确定一维数组的位置，因为给定的matrix是一个一维数组
+3.确定递归终止条件：越界，当前找到的矩阵值不等于数组对应位置的值，
+已经走过的，这三类情况，都直接false，说明这条路不通
+4.若k，就是待判定的字符串str的索引已经判断到了最后一位，此时说明是匹配成功的
+5.下面就是本题的精髓，递归不断地寻找周围四个格子是否符合条件，只要有一个格子符合条件，
+就继续再找这个符合条件的格子的四周是否存在符合条件的格子，直到k到达末尾或者不满足递归条件就停止。
+
+6.走到这一步，说明本次是不成功的，我们要还原一下标志位数组index处的标志位，进入下一轮的判断。
+
+public class Solution {
+    public boolean hasPath(char[] matrix, int rows, int cols, char[] str)
+    {
+        //标志位，初始化为false
+        boolean[] flag = new boolean[matrix.length];
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                 //循环遍历二维数组，找到起点等于str第一个元素的值，再递归判断四周是否有符合条件的----回溯法
+                 if(judge(matrix,i,j,rows,cols,flag,str,0)){
+		     #如果有一个路径满足，则返回True
+                     return true;
+                 }
+            }
+        }
+        return false;
+    }
+     
+    //judge(初始矩阵，索引行坐标i，索引纵坐标j，矩阵行数，矩阵列数，待判断的字符串，字符串索引初始为0即先判断字符串的第一位)
+    private boolean judge(char[] matrix,int i,int j,int rows,int cols,boolean[] flag,char[] str,int k){
+        //先根据i和j计算匹配的第一个元素转为一维数组的位置
+        int index = i*cols+j;
+        //递归终止条件
+        if(i<0 || j<0 || i>=rows || j>=cols || matrix[index] != str[k] || flag[index] == true)
+            return false;
+        //若k已经到达str末尾了，说明之前的都已经匹配成功了，直接返回true即可
+        if(k == str.length-1)
+            return true;
+        //要走的第一个位置置为true，表示已经走过了
+        flag[index] = true;
+         
+        //回溯，递归寻找，每次找到了就给k加一，找不到，还原
+        if(judge(matrix,i-1,j,rows,cols,flag,str,k+1) ||
+           judge(matrix,i+1,j,rows,cols,flag,str,k+1) ||
+           judge(matrix,i,j-1,rows,cols,flag,str,k+1) ||
+           judge(matrix,i,j+1,rows,cols,flag,str,k+1)  )
+        {
+            return true;
+        }
+        //走到这，说明这一条路不通，还原，再试其他的路径
+        flag[index] = false;
+        return false;
+    }
+ 
+ 
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>58.机器人的运动范围:
+
+地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，
+但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），
+因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
+</h3>
+```
+我们采用回溯法。机器人从[0,0]格子开始移动，当它移动到下一个格子的时候，
+我们通过格子的数位来判断该机器人是否有权利进入，如果可以，格子数+1，
+我们再判断[i-1,j],[i,j-1][i+1,j],[i,j+1]这相邻的四个格子能否进入。
+
+public int movingCount(int threshold, int rows, int cols) {
+        boolean[][] visited = new boolean[rows][cols];
+        return countingSteps(threshold,rows,cols,0,0,visited);
+    }
+    public int countingSteps(int limit,int rows,int cols,int r,int c,boolean[][] visited){
+        if (r < 0 || r >= rows || c < 0 || c >= cols
+                || visited[r][c] || bitSum(r) + bitSum(c) > limit)  return 0;
+        visited[r][c] = true;
+        return countingSteps(limit,rows,cols,r - 1,c,visited)
+                + countingSteps(limit,rows,cols,r,c - 1,visited)
+                + countingSteps(limit,rows,cols,r + 1,c,visited)
+                + countingSteps(limit,rows,cols,r,c + 1,visited)
+                + 1;
+    }
+    public int bitSum(int t){
+        int count = 0;
+        while (t != 0){
+            count += t % 10;
+            t /= 10;
+        }
+        return  count;
+    }
+```
+
+
