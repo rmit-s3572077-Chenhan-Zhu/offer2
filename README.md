@@ -152,41 +152,27 @@ public class Solution {
   
 
 ```
+import java.util.ArrayList;
 public class Solution {
-   public ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
-        if(array.length==0) return null;
-        ArrayList<ArrayList<Integer>> list=new ArrayList<ArrayList<Integer>>();
-        int l=0,r=1,min=Integer.MAX_VALUE,temp=0,flag=0;
-        while(r<=array.length-1) {
-        	if(array[l]+array[r]==sum) {
-        		ArrayList<Integer> li=new ArrayList<Integer>();
-        		li.add(array[l]);
-        		li.add(array[r]);
-        		l++;
-        		r++;
-        		list.add(li);
-        	}
-        	else {
-        		l++;
-        		r++;
-        	}
+    public ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if (array == null || array.length < 2) {
+            return list;
         }
-        if(list.size()!=1) {
-         for(int i =0;i<list.size();i++) {
-        	 
-        		temp= list.get(i).get(0)*list.get(i).get(1);
-        		if(temp<min) {
-               	 min=temp;
-               	 flag=i;
-                }
-        		
-         }
-         return list.get(flag);
-         
-        	
+        int i=0,j=array.length-1;
+        while(i<j){
+            if(array[i]+array[j]==sum){
+            list.add(array[i]);
+            list.add(array[j]);
+                return list;
+           }else if(array[i]+array[j]>sum){
+                j--;
+            }else{
+                i++;
+            }
+             
         }
-        
-        return list.get(0);
+        return list;
     }
 }
 ```
