@@ -1102,6 +1102,7 @@ public class Solution {
         for(int i = 0; i < num.length; i++) {
             if(!queue.isEmpty()){
                 // 如果队列头元素不在滑动窗口中了，就删除头元素
+		//如果下标i大于等于滑动窗口的大小+当前下标的话就删除
                 if(i >= queue.peek() + size) { 
                     queue.pop();
                 }
@@ -1111,7 +1112,7 @@ public class Solution {
                     queue.removeLast();
                 }
             }
-            queue.offer(i); // 入队列
+            queue.offer(i); // 入队列，存储的是下标
 
             // 滑动窗口经过三个元素，获取当前的最大值，也就是队列的头元素
             if(i + 1 >= size) {
