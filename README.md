@@ -1315,5 +1315,46 @@ public int movingCount(int threshold, int rows, int cols) {
 
 ```
 
+<h3>59.最长不含重复字符的子字符串:
+请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
+
+假设字符串中只包含从’a’到’z’的字符。
+</h3>
+
+```
+class Solution {
+   public static int longestSubstringWithoutDuplication(String s) {
+      if(s==null||s.length()==0) return 0;
+      int left= 0,right=0; //两个指针都位于最左
+      int n = s.length();
+      boolean[] used = new boolean[128];//默认所有字符都为false
+      int max = 0;
+      while(right<n) {
+    	  if(used[s.charAt(right)]==false) {//把字符赋为true，右指针移动
+    		  used[s.charAt(right)]=true;
+    		  right++; 
+    	  }
+    	  else {//当当前字符为true时
+    		  max= Math.max(max, right-left);//找最大值
+    		  while(left<right&&s.charAt(right)!=s.charAt(left)) {//之后开始找重复的字符，再从之后的left重新寻找重复字符。
+    		  //把之前重复的字符重新赋为false
+    		          			  used[s.charAt(left)]=false;
+
+    			  left++;
+    		  }
+    		  //两个指针从相同字符各移动一位
+    		  left++;
+    		  right++;
+    	  }
+      }
+      //需要对比最后获得的长度
+      max=Math.max(max, right-left);
+      return max;
+        
+    }
+
+}
+```
+
 
 
