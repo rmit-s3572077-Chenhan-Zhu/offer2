@@ -1356,5 +1356,45 @@ class Solution {
 }
 ```
 
+<h3>60. 0到n-1中缺失的数字:
+一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0到n-1之内。
 
+在范围0到n-1的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+</h3>
+
+```
+主要思路：若数组没有缺失，则每个数字和它的下标都相等。然而，现在数组有缺失，说明从缺失的那个数开始，后面的数字都比它的下标大1。因此找出第一个数值和下标不相等的数，那么，它的下标就是缺失的那个数。 
+  数组可看成两部分，前半段数值和下标相等，后半段数值和下标不相等，且数组是有序的。所以，使用二分查找，若中间数的值和下标相等，则在后半段继续寻找；若中间数的值和下标不相等，且中间数的前一个元素的值等于它的下标相等，那么这个中间数就是第一个值和下标不相等的数，它的下标就是缺失的那个数，否则继续在前半段寻找。
+ private static int findMissingNumber(int[] data)
+    {
+        if (data == null || data.length <= 0) return -1;
+
+        int left = 0;
+        int right = data.length - 1;
+
+        //值和下标相等的数在数组前半段
+        //值和下标不相等的数在数组后半段
+        while (left <= right)
+        {
+            int middle = left + (right - left) / 2;
+            //值和下标不相等
+            if (data[middle] != middle)
+            {
+                //找到缺失的数
+                if (middle == 0 || data[middle - 1] == middle - 1)
+                {
+                    return middle;
+                } else
+                {
+                    right = middle - 1; //中间值和下标不相等，则需在前半段查找
+                }
+            } else left = middle + 1;  //中间值和下标相等，则需在后半段查找
+        }
+        //数组前面的数都和下标相等，说明缺失的是最大的那个数
+        if (left == data.length) return data.length;
+        return -1;
+    }
+
+
+```
 
