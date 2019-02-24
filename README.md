@@ -1399,3 +1399,51 @@ class Solution {
 
 ```
 
+
+
+
+<h3>61. 最长回文子串:
+输入: "babad"
+输出: "bab"
+注意: "aba"也是一个有效答案。
+	
+输入: "cbbd"
+输出: "bb"
+</h3>
+
+```
+class Solution {//改为从中心出发寻找回文，降低复杂度
+    public String findPalindrome(String s, int left, int right) {  
+        int n = s.length();  
+        int l = left;  
+        int r = right;  
+        while (l >= 0 && r <= n - 1 && s.charAt(l) == s.charAt(r)) {  
+            l--;  
+            r++;  
+        }  
+        return s.substring(l + 1, r);  
+    }  
+  
+    public String longestPalindrome(String s) {  
+        int n = s.length();  
+        if (n<=1) return s;  
+  
+        String longest = "";  
+  
+        String str;  
+        for (int i=0; i<n-1; i++) {  
+            str = findPalindrome(s, i, i);  
+            if (str.length() > longest.length()){  //从中间找 代表奇数
+                longest = str;  
+            }  
+            str = findPalindrome(s, i, i + 1);  
+            if (str.length() > longest.length()){  //从中间找 代表偶数
+                longest = str;  
+            }  
+        }  
+  
+        return longest;  
+    }  
+}
+
+```
